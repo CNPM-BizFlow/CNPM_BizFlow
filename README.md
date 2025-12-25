@@ -23,35 +23,36 @@ To address this gap, we propose developing a Platform to support digital transfo
 
 #### 2.1 Build an application (mobile and/or web) that supports the following core functionalities: 
 
-1. Employee:
+###### 1. Employee:
 - They can login to the system. 
 -  Create at-counter orders quickly (search products, add quantity, add customers details). 
 - Print sales orders. 
 - Record debt for registered 
 
-2. Customers. 
+###### 2. Customers. 
 -  Receive real-time notifications for new orders. 
 - View and confirm "Draft Orders" created by the AI.
    
-3. Owner: 
+###### 3. Owner: 
 - Includes all Employee permission.
 - Manage product catalog (name, price, multiple units of measure). 
 - Manage inventory (new stock, view stock levels). 
 - Manage customers (info, purchase history, debt). 
 - View reports and analytics (daily/monthly revenue, best-sellers, outstanding debt). ○ Manage employee accounts.
 
-4. Administrator: 
+##### 4. Administrator: 
 - Manage owner accounts. 
-- View reports, analytics and feedback. ○ Manage Subscription Pricing. 
+- View reports, analytics and feedback. 
+- Manage Subscription Pricing. 
 - Update system config and templates for financial reports. 
 
-5. System: 
+##### 5. System: 
 - Convert natural language into draft order. 
 - It automatically does the bookkeeping. 
 
 #### 2.2 Functional requirements: 
 
-1. Employee:
+###### 1. Employee:
 - Login: Employees can log in using an account.  
 - Create At-Counter Orders: Employees can quickly create orders for walk-in customers. They can search for products, select quantity, assign customers (optional), and add items to the cart. The interface must support fast operations through keyboard shortcuts and instant product filtering.            
 - Record debt for registered customers: If the customer chooses to buy on credit, the Employee can record the debt directly during order creation. The system automatically updates the customer’s outstanding balance. 
@@ -59,33 +60,33 @@ To address this gap, we propose developing a Platform to support digital transfo
 - Receive Real-Time Notifications for AI/Chatbot Orders: When the AI assistant receives a message (text or voice) and generates a draft order, the interface will immediately display a real-time notification. 
 - View and confirm "Draft Orders" created by the AI: The draft order will be sent to the employee for checking and confirmation. 
 
-2. Owner (Owner includes all Employee functions, plus the following additional capabilities.):
+##### 2. Owner (Owner includes all Employee functions, plus the following additional capabilities.):
 - Manage Product Catalog: The owner can create, update, or disable products. They can define product attributes such as name, images, price, category, and multiple units of measure. Pricing rules can also be configured. 
 - Manage Inventory: The owner can record stock imports, track stock levels in real time, and view inventory history. The system automatically deducts stock upon order confirmation. 
 - Manage Customers: The owner can add and update customer information, view their purchase history, track outstanding debts, and review payment logs.
 - View Reports & Analytics: Provides interactive dashboards that show daily/weekly/monthly revenue, top-selling products, low-stock alerts, and total outstanding debts. Data visualization supports charts and summary widgets.
 - Manage Employee Accounts: The owner can create new employee accounts, reset passwords and deactivate accounts. Audit logs track who made each change for accountability. 
 
-3. System:
+##### 3. System:
 - Convert natural language into draft order: It "listens" (or reads) what the user says (e.g., "get 5 cement bags for Mr. Ba, put it on his tab") and automatically creates a draft order from that command.
 - It automatically does the bookkeeping: The system automatically performs bookkeeping for every sale, stock import, and customer debt transaction. Based on this recorded data, it automatically calculates, summarizes, and populates the official accounting books and financial reports required by Circular 88/2021/TT-BTC (Vietnam's official accounting standard for household businesses). This feature eliminates all manual calculation and data entry in Excel, ensuring that reports (e.g., Detailed Revenue Ledger, Outstanding Debt Report, Business Operations Report) are accurate and legally compliant for tax purposes. The platform guarantees that these report templates will be continuously updated to align with the latest government regulations as they are issued, ensuring long-term compliance for the business owner.
 
-4. Administrator:
+##### 4. Administrator:
 - Owner Account Management: Admins can view, search, filter, and manage all registered "Owner" (business household) accounts. This includes activating or deactivating accounts, and viewing detailed profiles.
 - Manage Subscription Pricing: Admins can define and update the pricing for the various subscription plans offered on the platform (e.g., set the monthly/annual cost for the Basic, Pro plans). 
 - Platform Analytics & Reporting: Admins can access a global dashboard to monitor the health, growth, and revenue of the entire platform. This includes viewing total active users, new subscriptions.
 - System & AI Configuration: Admins can manage global system settings. Updating the master templates for financial reports (Circular 88/2021/TT-BTC), and broadcasting system-wide announcements. 
  
 #### 2.3 Non - functional requirements:
-1. Security & Privacy:
+##### 1. Security & Privacy:
 - Protect the sales information of household businesses. 
 - Strict role-based access control for Employee, Owner, and Admin roles. 
 
-2. Performance & Scalability:
+##### 2. Performance & Scalability:
 - Application responds quickly (< 2000 ms for core actions). 
 - Supports large product catalogs and multiple concurrent users
  
-3. Reliability & AI Accuracy:
+##### 3. Reliability & AI Accuracy:
 - Employees or owners can review, edit, or reject AI-generated draft orders.
 - Fall back to manual operation if AI is unavailable. 
 - Usability & Accessibility 
@@ -93,10 +94,10 @@ Simple, responsive web/mobile UI suitable for low digital literacy.
 - Vietnamese interface; Unicode preserved.
 - Real-time notifications. 
 
-3. Compliance & Reporting 
+##### 3. Compliance & Reporting 
 - Automatically generates accounting reports following Circular 88/2021/TT-BTC.
 - Owners can review, edit, or reject AI-generated reports.
 - The platform guarantees that all accounting report templates will be continuously updated to align with any future changes in the official declaration forms issued by the tax authorities. 
-4. Products: 
+###### 4. Products: 
 - Mobile application 
 - Web application 
