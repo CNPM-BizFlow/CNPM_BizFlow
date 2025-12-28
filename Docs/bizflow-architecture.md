@@ -1,4 +1,4 @@
-# Archỉtecture
+# Architecture
 
 bizflow
 ├── migrations/                 
