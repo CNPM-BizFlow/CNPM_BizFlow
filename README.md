@@ -83,4 +83,4 @@ Simple, responsive web/mobile UI suitable for low digital literacy.
 - The platform guarantees that all accounting report templates will be continuously updated to align with any future changes in the official declaration forms issued by the tax authorities. 
 #### 5.Products: 
 - Mobile application 
-- Web application 
+- Web application    
