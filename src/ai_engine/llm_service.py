@@ -1,26 +1,35 @@
 import json
 import google.generativeai as genai
 from src.config import get_settings
-from src.ai_engine.rag_service import RAGService
+# from src.ai_engine.rag_service import RAGService 
 
 class LLMService:
     def __init__(self):
         self.settings = get_settings()
-        genai.configure(api_key=self.settings.GEMINI_API_KEY)
-        self.rag = RAGService()
         
-        # Cấu hình model trả về JSON
+        # Cấu hình API Key
+        genai.configure(api_key=self.settings.GEMINI_API_KEY)
+        
+        # self.rag = RAGService() 
+        
+        # --- SỬA LẠI ĐOẠN NÀY CHO ĐÚNG THỤT DÒNG ---
         self.model = genai.GenerativeModel(
-            self.settings.LLM_MODEL,
+            "gemini-2.5-flash", 
             generation_config={"response_mime_type": "application/json"}
         )
 
     async def parse_order_intent(self, text: str, business_id: str):
-        # 1. Tìm sản phẩm liên quan từ Database
-        products = await self.rag.search_products(business_id, text, top_k=5)
+        # 1. Giả lập dữ liệu sản phẩm để test
+        products = [
+            {"name": "Cà phê đen đá", "id": "CF01"},
+            {"name": "Cà phê sữa đá", "id": "CF02"},
+            {"name": "Trà đào cam sả", "id": "TD01"},
+            {"name": "Bạc xỉu", "id": "BX01"}
+        ]
+        
         product_context = "\n".join([f"- {p['name']} (ID: {p['id']})" for p in products])
 
-        # 2. Tạo Prompt cho Google Gemini
+        # 2. Tạo Prompt
         prompt = f"""
         Bạn là nhân viên bán hàng. Hãy trích xuất đơn hàng từ câu nói sau: "{text}"
         
@@ -49,10 +58,8 @@ class LLMService:
         """
 
         # 3. Gọi Google Gemini
-        response = self.model.generate_content(prompt)
-        
-        # 4. Parse kết quả
         try:
+            response = self.model.generate_content(prompt)
             return json.loads(response.text)
-        except:
-            return {"error": "Lỗi phân tích cú pháp JSON từ AI"}
+        except Exception as e:
+            return {"error": f"Lỗi AI: {str(e)}"}

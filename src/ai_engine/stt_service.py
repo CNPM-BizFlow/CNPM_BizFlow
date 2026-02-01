@@ -1,40 +1,37 @@
-import logging
 import google.generativeai as genai
-from src.config import get_settings
+import os
+from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
+# Load API Key từ file .env
+load_dotenv()
 
 class STTService:
     def __init__(self):
-        self.settings = get_settings()
-        genai.configure(api_key=self.settings.GEMINI_API_KEY)
-        self.model = genai.GenerativeModel(self.settings.LLM_MODEL)
+        # Lấy Key từ biến môi trường
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("❌ Chưa cấu hình GEMINI_API_KEY trong file .env")
+            
+        genai.configure(api_key=api_key)
+        
+        self.model = genai.GenerativeModel("gemini-2.5-flash")
 
     async def transcribe(self, audio_path: str) -> str:
-        # --- ĐOẠN IN RA MÀN HÌNH ĐỂ KIỂM TRA ---
-        print(f"\n\n📢 [BẮT ĐẦU] Đang nhận file âm thanh: {audio_path}")
+        print(f"📢 [Gemini] Đang xử lý file: {audio_path}...")
         
         try:
-            print("📢 [BƯỚC 1] Đang upload file lên Google Gemini...")
-            # Upload file
+            # 1. Upload file lên Google
             audio_file = genai.upload_file(path=audio_path)
-            print("📢 [BƯỚC 2] Upload XONG. Đang yêu cầu AI dịch sang chữ...")
-
-            # Gọi AI
-            response = self.model.generate_content(
-                [
-                    "Hãy nghe file âm thanh này và viết lại chính xác nội dung văn bản (Transcribe) bằng tiếng Việt. Chỉ trả về nội dung văn bản, không thêm lời dẫn.", 
-                    audio_file
-                ]
-            )
-
-            # In kết quả ra màn hình đen
-            text_result = response.text.strip()
-            print(f"📢 [KẾT QUẢ AI TRẢ VỀ]: '{text_result}'")
             
-            return text_result
+            # 2. Gửi yêu cầu dịch
+            response = self.model.generate_content(
+                ["Hãy nghe file âm thanh này và trích xuất (transcribe) chính xác nội dung văn bản tiếng Việt. Chỉ trả về văn bản, không thêm lời dẫn.", audio_file]
+            )
+            
+            # 3. Trả về kết quả
+            print(f"✅ [Gemini] Kết quả: {response.text.strip()}")
+            return response.text.strip()
             
         except Exception as e:
-            # Nếu lỗi thì in lỗi to đùng ra
-            print(f"❌ [LỖI NGHIÊM TRỌNG]: {str(e)}")
-            return ""
+            print(f"❌ [Lỗi Gemini]: {str(e)}")
+            return "Lỗi nhận diện giọng nói"
