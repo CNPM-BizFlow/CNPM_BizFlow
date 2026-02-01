@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 
+# Thêm dấu chấm (.) đằng trước chữ config
 from config import FactoryConfig, swagger_template, swagger_config
 from extensions import init_extensions, db
 from domain.exceptions import BizFlowException
