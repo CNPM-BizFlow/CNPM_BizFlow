@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Clean/Minimal Palette for BizFlow */
+  --background: #F8FAFC; /* Slate 50 */
+  --foreground: #0F172A; /* Slate 900 */
+
+  /* Teal/Green - Trust & Growth */
+  --primary: #0D9488; /* Teal 600 */
+  --primary-hover: #0F766E; /* Teal 700 */
+
+  /* Orange/Amber - Attention & Action */
+  --secondary: #F59E0B; /* Amber 500 */
+  --secondary-hover: #D97706; /* Amber 600 */
+  
+  --accent: #F59E0B;
+
+  --surface: #FFFFFF;
+  --border: #E2E8F0; /* Slate 200 */
+  
+  --success: #10B981;
+  --error: #EF4444;
+  --warning: #F59E0B;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  }
+  
+  .card-shadow {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+}

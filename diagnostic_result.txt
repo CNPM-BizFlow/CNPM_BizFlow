@@ -1,0 +1,9 @@
+--- STORE INFO ---
+Store ID: 1, Name: Cửa hàng Vật liệu Xây dựng ABC, Owner ID: 2
+
+--- DRAFT ORDERS ---
+Total Drafts: 0
+
+--- OWNER INFO ---
+Owner ID: 2, Email: owner@bizflow.vn
+Owned Stores: [1]

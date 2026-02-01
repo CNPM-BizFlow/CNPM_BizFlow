@@ -50,7 +50,7 @@ def init_extensions(app):
     jwt.init_app(app)
     
     # CORS
-    CORS(app, origins=app.config.get('CORS_ORIGINS', '*'))
+    CORS(app, origins=app.config.get('CORS_ORIGINS', '*'), allow_headers=['Content-Type', 'Authorization'])
     
     # Redis (optional, won't fail if unavailable)
     init_redis(app)

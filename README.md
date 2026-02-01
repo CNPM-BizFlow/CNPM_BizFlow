@@ -1,128 +1,162 @@
-<<<<<<< HEAD
-# BizFlow - Nền Tảng Chuyển Đổi Số Cho Hộ Kinh Doanh
+# BizFlow - Nền Tảng Chuyển Đổi Số Cho Hộ Kinh Doanh Cá Thể
 
-**BizFlow** là nền tảng Backend API hỗ trợ chuyển đổi số cho các hộ kinh doanh vừa và nhỏ, cung cấp giải pháp quản lý bán hàng, kho, công nợ, và báo cáo tài chính tuân thủ Thông tư 88/2021/TT-BTC.
+**BizFlow** là giải pháp quản lý bán hàng "All-in-One" dành riêng cho các hộ kinh doanh cá thể, cửa hàng vật liệu xây dựng, và tạp hóa. 
 
-## Tính Năng Chính (MVP)
+Khác với các phần mềm kế toán phức tạp, **BizFlow** tập trung vào trải nghiệm **"POS Đơn Giản"** và tính năng **"Ra Lệnh Bằng Giọng Nói/Văn Bản"** (AI) giúp chủ cửa hàng không rành công nghệ vẫn có thể tạo đơn và quản lý công nợ dễ dàng.
 
-### 1. Quản Lý Bán Hàng & Đơn Hàng
-- Tạo đơn hàng tại quầy (POS) nhanh chóng.
-- Hỗ trợ bán chịu (ghi nợ) và theo dõi công nợ khách hàng.
-- Tự động trừ kho khi xác nhận đơn hàng.
-- **AI Draft Order**: Hỗ trợ tạo đơn nháp từ ngôn ngữ tự nhiên (Vd: "Lấy 5 bao xi măng cho chú Ba, ghi nợ").
+## 🚀 Tính Năng Nổi Bật (Signature Features)
 
-### 2. Quản Lý Kho & Sản Phẩm
-- Theo dõi tồn kho theo thời gian thực.
-- Hỗ trợ nhập kho, xuất kho, kiểm kê.
-- Quản lý sản phẩm với nhiều đơn vị tính (bao, kg, cái, thùng...).
+### 1. 🤖 AI Assistant (Trợ Lý Ảo)
+- **Tạo đơn hàng bằng lời nói**: "Lấy 5 bao xi măng Hà Tiên cho chú Ba, ghi nợ".
+- **Xử lý ngôn ngữ tự nhiên**: Tự động nhận diện khách hàng, sản phẩm và tạo Draft Order.
+- **Real-time Feedback**: Phản hồi tức thì ngay khi nhập lệnh.
 
-### 3. Khách Hàng & Công Nợ
-- Quản lý thông tin khách hàng và lịch sử mua hàng.
-- Theo dõi hạn mức công nợ và lịch sử thanh toán.
+### 2. ⚡ POS Bán Hàng Tinh Gọn
+- Giao diện Clean/Minimal, tối ưu cho thao tác chạm trên màn hình cảm ứng.
+- Tạo đơn, in hóa đơn, và trừ kho chỉ trong 3 bước.
+- Hoạt động mượt mà trên cả PC, Tablet và Mobile.
 
-### 4. Báo Cáo & Tài Chính
-- Báo cáo doanh thu theo ngày/tháng.
-- Báo cáo công nợ phải thu.
-- **Tuân thủ TT88**: Tự động tạo các bút toán doanh thu, nhập/xuất kho theo quy định.
+### 3. 📒 Sổ Công Nợ Thông Minh
+- Theo dõi chi tiết "Ai nợ mình" và "Mình nợ ai".
+- Tự động nhắc nợ khi đến hạn.
+- Lịch sử giao dịch minh bạch, dễ dàng đối soát với khách hàng.
 
-### 5. Phân Quyền (RBAC)
-- **Admin**: Quản trị hệ thống, tạo tài khoản chủ cửa hàng.
-- **Owner**: Quản lý toàn bộ hoạt động cửa hàng, xem báo cáo.
-- **Employee**: Bán hàng, tạo đơn, theo dõi kho (nhưng không xem báo cáo tài chính).
+### 4. 📊 Báo Cáo "Dân Dã"
+- Biểu đồ doanh thu ngày/tháng đơn giản, dễ hiểu.
+- Báo cáo lãi lỗ tạm tính (không cần kiến thức kế toán chuyên sâu).
+- Tự động sinh bút toán tuân thủ Thông tư 88/2021/TT-BTC (khi cần xuất báo cáo thuế).
 
 ---
 
-## Công Nghệ Sử Dụng
+## 🛠 Công Nghệ Sử Dụng (Tech Stack)
 
-- **Backend**: Python (Flask)
+### Frontend (Giao Diện)
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS v3 (Custom Design System)
+- **Icons**: Phosphor Icons (Duotone)
+- **AI UX**: Real-time feedback components
+
+### Backend (Xử Lý)
+- **Core**: Python (Flask)
+- **Architecture**: Clean Architecture (Domain Driven Design)
 - **Database**: MySQL 8.0
-- **Cache**: Redis (Optional)
-- **ORM**: SQLAlchemy
 - **Auth**: JWT (Flask-JWT-Extended)
-- **API Docs**: Swagger/OpenAPI
 
 ---
 
-##  Hướng Dẫn Cài Đặt & Chạy
+# Hướng Dẫn Phát Triển (Development Guide)
 
-### Yêu Cầu
-- Python 3.10+
-- MySQL Server (hoặc Docker)
-- Redis (Tùy chọn)
+Tài liệu này hướng dẫn chi tiết cách thiết lập môi trường phát triển cho **BizFlow** (Fullstack).
 
-### Cách 1: Chạy Local (Dev)
+## 1. Yêu Cầu Hệ Thống (Prerequisites)
+- **OS**: Windows, macOS, hoặc Linux.
+- **Python**: 3.10 trở lên.
+- **Node.js**: 18.17 trở lên (Khuyên dùng LTS).
+- **Database**: MySQL 8.0 (hoặc Docker container).
+- **Git**: Phiên bản mới nhất.
 
-1. **Chuẩn bị Database**
-   Chạy lệnh SQL để tạo database:
-   ```sql
-   CREATE DATABASE bizflow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
-   Cấu hình file `.env` trong thư mục `src`:
-   ```ini
-   MYSQL_USER=root
-   MYSQL_PASSWORD=your_password
-   MYSQL_DATABASE=bizflow
-   ```
+---
 
-2. **Cài đặt thư viện**
+## 2. Thiết Lập Backend (Flask API)
+
+### Bước 2.1: Cấu hình Database
+Tạo database mới trong MySQL:
+```sql
+CREATE DATABASE bizflow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### Bước 2.2: Cài đặt và Chạy
+Mở terminal tại thư mục gốc `Flask-CleanArchitecture`:
+
+1. **Tạo/Kích hoạt môi trường ảo:**
    ```bash
-   # Kích hoạt môi trường ảo
-   .venv\Scripts\activate  # Windows
-   source .venv/bin/activate  # Linux/Mac
+   python -m venv .venv
+   # Windows:
+   .venv\Scripts\activate
+   # Mac/Linux:
+   source .venv/bin/activate
+   ```
 
-   # Cài đặt requirements
+2. **Cài đặt thư viện:**
+   ```bash
    pip install -r src/requirements.txt
    ```
 
-3. **Khởi chạy Server**
-   ```bash
-   python .\src\app.py
+3. **Cấu hình biến môi trường:**
+   Đảm bảo file `src/.env` có thông tin kết nối đúng:
+   ```ini
+   MYSQL_USER=root
+   MYSQL_PASSWORD=your_password
+   MYSQL_HOST=localhost
+   MYSQL_PORT=3306
+   MYSQL_DATABASE=bizflow
    ```
-   Server sẽ chạy tại: `http://localhost:9999`
 
-4. **Tạo Dữ Liệu Mẫu**
-   Mở terminal khác và chạy:
+4. **Tạo dữ liệu mẫu (Seeding):**
    ```bash
    python src/seed.py
    ```
+   *Lệnh này sẽ tạo các tài khoản admin/owner mặc định.*
 
-### Cách 2: Chạy bằng Docker Compose
+5. **Khởi chạy Server:**
+   ```bash
+   python src/app.py
+   ```
+   Server sẽ chạy tại: `http://localhost:9999`
 
+---
+
+## 3. Thiết Lập Frontend (Next.js)
+
+### Bước 3.1: Cài đặt Dependencies
+Mở terminal **mới**, đi vào thư mục frontend:
 ```bash
-docker-compose up -d --build
+cd frontend
+npm install
 ```
 
----
-
-##  API Documentation
-
-Truy cập Swagger UI để xem và test API:
- **[http://localhost:9999/docs](http://localhost:9999/docs)**
-
-### Tài Khoản Test Mặc Định
-
-| Vai Trò | Email | Mật Khẩu | Ghi Chú |
-| :--- | :--- | :--- | :--- |
-| **Admin** | `admin@bizflow.vn` | `admin123` | Quản trị hệ thống |
-| **Owner** | `owner@bizflow.vn` | `owner123` | Chủ cửa hàng |
-| **Employee** | `nhanvien@bizflow.vn` | `nhanvien123` | Nhân viên bán hàng |
+### Bước 3.2: Chạy Server phát triển
+```bash
+npm run dev
+```
+Truy cập ứng dụng tại: `http://localhost:3000`
 
 ---
+
+## 4. Tài Khoản Test (Mặc Định)
+
+| Vai Trò | Email | Mật Khẩu |
+| :--- | :--- | :--- |
+| **Admin** | `admin@bizflow.vn` | `admin123` |
+| **Chủ Hộ (Owner)** | `owner@bizflow.vn` | `owner123` |
+| **Nhân Viên** | `nhanvien@bizflow.vn` | `nhanvien123` |
+
+## 5. Quy Trình Phát Triển (Workflow)
+1. **Sửa Frontend**: Next.js hỗ trợ Hot Reload, chỉ cần lưu file là thấy thay đổi.
+2. **Sửa Backend**: Flask server cũng tự động reload khi code thay đổi (nếu bật debug mode).
+3. **Linting**:
+   - Frontend: `npm run lint`
+   - Backend: (Cài đặt `flake8` hoặc `black` nếu cần).
+
+---
+
 
 ##  Ví Dụ Sử Dụng (Curl)
 
+##  Ví Dụ Sử Dụng (PowerShell)
+
 ### Đăng Nhập (Lấy Token)
-```bash
-curl -X POST http://localhost:9999/api/v1/auth/login \
-  -H "Content-Type: application/json" \
+```powershell
+curl -X POST http://localhost:9999/api/v1/auth/login `
+  -H "Content-Type: application/json" `
   -d '{"email": "owner@bizflow.vn", "password": "owner123"}'
 ```
 
 ### Tạo Đơn Hàng Mới
-```bash
-curl -X POST http://localhost:9999/api/v1/orders \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
+```powershell
+curl -X POST http://localhost:9999/api/v1/orders `
+  -H "Authorization: Bearer <TOKEN>" `
+  -H "Content-Type: application/json" `
   -d '{
     "store_id": 1,
     "customer_id": 1,
@@ -134,10 +168,10 @@ curl -X POST http://localhost:9999/api/v1/orders \
 ```
 
 ### Tạo Draft Order bằng AI (Text)
-```bash
-curl -X POST http://localhost:9999/api/v1/ai/draft-orders \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
+```powershell
+curl -X POST http://localhost:9999/api/v1/ai/draft-orders `
+  -H "Authorization: Bearer <TOKEN>" `
+  -H "Content-Type: application/json" `
   -d '{
     "store_id": 1,
     "text": "Lấy 10 bao xi măng cho chú Ba, ghi nợ"
@@ -159,91 +193,3 @@ src/
 ├── seed.py             # Sample Data Script
 └── requirements.txt    # Python Dependencies
 ```
-=======
-# CNPM_BizFlow
-# English: Platform to support digital transformation for household businesses.
-- Vietnamese: Nền tảng hỗ trợ chuyển đổi số cho hộ kinh doanh. 
-- Abbreviation: BizFlow 
-## 1.Context: 
-In Vietnam, household businesses play a critical role in the local economy, especially in traditional sectors such as building materials, construction supplies, and hardware retail. The majority of these fall under Group 1 or Group 2 classifications as defined by the Ministry of Finance's Decision 3389/QĐ-BTC (2025).
-
-Consequently, most of these businesses still operate using fully manual workflows. Daily tasks such as recording sales, managing inventory, tracking customer debts, and processing phone/Zalo orders are typically performed with handwritten notebooks or simple Excel files. Moreover, household businesses often lack the budget to hire accountants.
-
-Despite the rapidly growing demand for digital transformation across industries, existing commercial POS or business management solutions are often designed for restaurants, retail fashion, or large enterprises. These systems fail to meet the unique operational characteristics of household businesses, which include: 
-- Multi-channel orders (at-counter sales and phone/Zalo orders).
-- Customer debt management with long-term transaction history.
-- Low digital literacy among store owners. 
-
-Most household businesses also lack the essential hardware required to adopt existing digital solutions. Many operate with only a single smartphone, without computers, barcode scanners, receipt printers, POS terminals, or cash drawers. This limitation makes POS systems impractical, as such solutions typically require multiple devices and a stable hardware setup. The high upfront cost of purchasing these devices further prevents household businesses from transitioning to digital workflows, forcing them to continue relying on fully manual processes. 
-
-Due to the lack of a specialized platform, household businesses face several challenges: frequent errors in manual calculations, slow order processing, difficulty tracking inventory, inconsistent debt records, and no access to real-time business insights. The result is reduced operational efficiency, financial risks, and an inability to scale or modernize business operations. 
- 
-To address this gap, we propose developing a Platform to support digital transformation for household businesses, a comprehensive system designed specifically for traditional stores. The platform integrates an interface with an AI-powered assistant capable of understanding natural language requests (via text or voice) to automatically create draft orders and auto fill data into templates. This combination supports automation, reduces human errors, and provides business owners with real-time visibility into their operations. 
-## 2.Proposed Solutions: 
-### 2.1.Build an application (mobile and/or web) that supports the following core functionalities: 
-#### 1.Employee:
-- They can login to the system. 
-- Create at-counter orders quickly (search products, add quantity, add customers details). 
-- Print sales orders. 
-- Record debt for registered 
-#### 2.Customers. 
-- Receive real-time notifications for new orders. 
-- View and confirm "Draft Orders" created by the AI.  
-#### 3.Owner: 
-- Includes all Employee permission.
-- Manage product catalog (name, price, multiple units of measure). 
-- Manage inventory (new stock, view stock levels). 
-- Manage customers (info, purchase history, debt). 
-- View reports and analytics (daily/monthly revenue, best-sellers, outstanding debt). ○ Manage employee accounts.
-#### 4.Administrator: 
-- Manage owner accounts. 
-- View reports, analytics and feedback. 
-- Manage Subscription Pricing. 
-- Update system config and templates for financial reports. 
-#### 5.System: 
-- Convert natural language into draft order. 
-- It automatically does the bookkeeping. 
-### 2.2.Functional requirements: 
-#### 1.Employee:
-- Login: Employees can log in using an account.  
-- Create At-Counter Orders: Employees can quickly create orders for walk-in customers. They can search for products, select quantity, assign customers (optional), and add items to the cart. The interface must support fast operations through keyboard shortcuts and instant product filtering.            
-- Record debt for registered customers: If the customer chooses to buy on credit, the Employee can record the debt directly during order creation. The system automatically updates the customer’s outstanding balance. 
-- Print Sales Orders: After creating an order, the employee can generate and print orders using pre-designed bill templates. The system stores each order in the database for future retrieval.
-- Receive Real-Time Notifications for AI/Chatbot Orders: When the AI assistant receives a message (text or voice) and generates a draft order, the interface will immediately display a real-time notification. 
-- View and confirm "Draft Orders" created by the AI: The draft order will be sent to the employee for checking and confirmation. 
-#### 2.Owner (Owner includes all Employee functions, plus the following additional capabilities.):
-- Manage Product Catalog: The owner can create, update, or disable products. They can define product attributes such as name, images, price, category, and multiple units of measure. Pricing rules can also be configured. 
-- Manage Inventory: The owner can record stock imports, track stock levels in real time, and view inventory history. The system automatically deducts stock upon order confirmation. 
-- Manage Customers: The owner can add and update customer information, view their purchase history, track outstanding debts, and review payment logs.
-- View Reports & Analytics: Provides interactive dashboards that show daily/weekly/monthly revenue, top-selling products, low-stock alerts, and total outstanding debts. Data visualization supports charts and summary widgets.
-- Manage Employee Accounts: The owner can create new employee accounts, reset passwords and deactivate accounts. Audit logs track who made each change for accountability. 
-#### 3.System:
-- Convert natural language into draft order: It "listens" (or reads) what the user says (e.g., "get 5 cement bags for Mr. Ba, put it on his tab") and automatically creates a draft order from that command.
-- It automatically does the bookkeeping: The system automatically performs bookkeeping for every sale, stock import, and customer debt transaction. Based on this recorded data, it automatically calculates, summarizes, and populates the official accounting books and financial reports required by Circular 88/2021/TT-BTC (Vietnam's official accounting standard for household businesses). This feature eliminates all manual calculation and data entry in Excel, ensuring that reports (e.g., Detailed Revenue Ledger, Outstanding Debt Report, Business Operations Report) are accurate and legally compliant for tax purposes. The platform guarantees that these report templates will be continuously updated to align with the latest government regulations as they are issued, ensuring long-term compliance for the business owner.
-#### 4.Administrator:
-- Owner Account Management: Admins can view, search, filter, and manage all registered "Owner" (business household) accounts. This includes activating or deactivating accounts, and viewing detailed profiles.
-- Manage Subscription Pricing: Admins can define and update the pricing for the various subscription plans offered on the platform (e.g., set the monthly/annual cost for the Basic, Pro plans). 
-- Platform Analytics & Reporting: Admins can access a global dashboard to monitor the health, growth, and revenue of the entire platform. This includes viewing total active users, new subscriptions.
-- System & AI Configuration: Admins can manage global system settings. Updating the master templates for financial reports (Circular 88/2021/TT-BTC), and broadcasting system-wide announcements. 
-### 2.3.Non - functional requirements:
-#### 1.Security & Privacy:
-- Protect the sales information of household businesses. 
-- Strict role-based access control for Employee, Owner, and Admin roles. 
-#### 2.Performance & Scalability:
-- Application responds quickly (< 2000 ms for core actions). 
-- Supports large product catalogs and multiple concurrent users
-#### 3.Reliability & AI Accuracy:
-- Employees or owners can review, edit, or reject AI-generated draft orders.
-- Fall back to manual operation if AI is unavailable. 
-- Usability & Accessibility 
-Simple, responsive web/mobile UI suitable for low digital literacy. 
-- Vietnamese interface; Unicode preserved.
-- Real-time notifications. 
-#### 4.Compliance & Reporting 
-- Automatically generates accounting reports following Circular 88/2021/TT-BTC.
-- Owners can review, edit, or reject AI-generated reports.
-- The platform guarantees that all accounting report templates will be continuously updated to align with any future changes in the official declaration forms issued by the tax authorities. 
-#### 5.Products: 
-- Mobile application 
-- Web application    
->>>>>>> 71ab6f8ec3d2971df059f8146c2d9348e260b456

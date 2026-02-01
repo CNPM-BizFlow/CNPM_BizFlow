@@ -1,6 +1,6 @@
 # BizFlow API - Main Application
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flasgger import Swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 
@@ -57,6 +57,10 @@ def create_app(config_name: str = None):
             'docs': '/docs',
             'health': '/health'
         })
+    
+    @app.before_request
+    def log_request_info():
+        app.logger.info(f"API Request: {request.method} {request.path}")
     
     # Create tables
     with app.app_context():
@@ -129,11 +133,15 @@ def register_error_handlers(app):
     
     @app.errorhandler(500)
     def handle_internal_error(e):
+        message = 'Internal server error'
+        if app.debug or app.config.get('ENV') == 'development':
+            message = str(e)
+            
         return jsonify({
             'success': False,
             'error': {
                 'code': 'INTERNAL_ERROR',
-                'message': 'Internal server error'
+                'message': message
             }
         }), 500
 

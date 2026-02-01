@@ -4,7 +4,11 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 
+# Load environment variables from .env file
+# Try both current directory and src/ subdirectory
 load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+load_dotenv(os.path.join(os.getcwd(), 'src', '.env'))
 
 
 class Config:

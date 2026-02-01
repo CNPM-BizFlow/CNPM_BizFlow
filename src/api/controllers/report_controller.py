@@ -362,3 +362,42 @@ def dashboard():
         return error_response(e.code, e.message, e.details, e.status_code)
     except Exception as e:
         return error_response("INTERNAL_ERROR", str(e), status_code=500)
+
+@report_bp.route('/top-products', methods=['GET'])
+@require_auth
+@require_role(Role.OWNER, Role.ADMIN)
+def top_products():
+    """Get top selling products"""
+    try:
+        identity = get_current_user_identity()
+        current_user = AuthService.get_current_user(identity)
+        
+        store_id = request.args.get('store_id', type=int)
+        if not store_id:
+            return error_response("VALIDATION_ERROR", "store_id là bắt buộc", status_code=400)
+        
+        if not current_user.can_access_store(store_id):
+            raise AuthorizationError()
+
+        from infrastructure.models import OrderItem, Product
+        
+        top_items = db.session.query(
+            Product.name,
+            db.func.sum(OrderItem.quantity).label('total_qty'),
+            db.func.sum(OrderItem.line_total).label('total_revenue')
+        ).join(OrderItem, Product.id == OrderItem.product_id)\
+         .join(Order, OrderItem.order_id == Order.id)\
+         .filter(Order.store_id == store_id)\
+         .group_by(Product.id)\
+         .order_by(db.text('total_qty DESC'))\
+         .limit(5).all()
+        
+        return success_response(data=[
+            {
+                'name': name,
+                'quantity': float(qty),
+                'revenue': float(rev)
+            } for name, qty, rev in top_items
+        ])
+    except Exception as e:
+        return error_response("INTERNAL_ERROR", str(e), status_code=500)

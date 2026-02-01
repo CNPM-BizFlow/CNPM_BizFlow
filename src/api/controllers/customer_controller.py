@@ -72,8 +72,21 @@ def create_customer():
         data = request.get_json()
         
         store_id = data.get('store_id')
+        if not store_id:
+             return error_response("VALIDATION_ERROR", "store_id là bắt buộc", status_code=400)
+
         if not current_user.can_access_store(store_id):
+            print(f"Auth Error: User {current_user.id} cannot access store {store_id}")
             raise AuthorizationError()
+        
+        # Safe Decimal conversion for debt_limit
+        raw_debt_limit = data.get('debt_limit')
+        debt_limit_val = Decimal('0.00')
+        if raw_debt_limit is not None and str(raw_debt_limit).strip() != "":
+            try:
+                debt_limit_val = Decimal(str(raw_debt_limit))
+            except:
+                debt_limit_val = Decimal('0.00')
         
         customer = Customer(
             store_id=store_id,
@@ -82,18 +95,23 @@ def create_customer():
             address=data.get('address'),
             email=data.get('email'),
             notes=data.get('notes'),
-            debt_limit=Decimal(str(data.get('debt_limit', 0))) if data.get('debt_limit') else None,
+            debt_limit=debt_limit_val,
             is_active=True
         )
         
         db.session.add(customer)
         db.session.commit()
         
+        print(f"Created customer: {customer.name} for store {store_id}")
         return created_response(data=customer.to_dict(), message="Tạo khách hàng thành công")
     
     except BizFlowException as e:
+        print(f"BizFlow Error in create_customer: {e.code} - {e.message}")
         return error_response(e.code, e.message, e.details, e.status_code)
     except Exception as e:
+        print(f"Internal Error in create_customer: {str(e)}")
+        import traceback
+        traceback.print_exc()
         db.session.rollback()
         return error_response("INTERNAL_ERROR", str(e), status_code=500)
 
