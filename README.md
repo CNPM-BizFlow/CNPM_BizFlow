@@ -4,31 +4,31 @@
 
 Khác với các phần mềm kế toán phức tạp, **BizFlow** tập trung vào trải nghiệm **"POS Đơn Giản"** và tính năng **"Ra Lệnh Bằng Giọng Nói/Văn Bản"** (AI) giúp chủ cửa hàng không rành công nghệ vẫn có thể tạo đơn và quản lý công nợ dễ dàng.
 
-## 🚀 Tính Năng Nổi Bật (Signature Features)
+##  Tính Năng Nổi Bật (Signature Features)
 
-### 1. 🤖 AI Assistant (Trợ Lý Ảo)
+### 1.  AI Assistant (Trợ Lý Ảo)
 - **Tạo đơn hàng bằng lời nói**: "Lấy 5 bao xi măng Hà Tiên cho chú Ba, ghi nợ".
 - **Xử lý ngôn ngữ tự nhiên**: Tự động nhận diện khách hàng, sản phẩm và tạo Draft Order.
 - **Real-time Feedback**: Phản hồi tức thì ngay khi nhập lệnh.
 
-### 2. ⚡ POS Bán Hàng Tinh Gọn
+### 2.  POS Bán Hàng Tinh Gọn
 - Giao diện Clean/Minimal, tối ưu cho thao tác chạm trên màn hình cảm ứng.
 - Tạo đơn, in hóa đơn, và trừ kho chỉ trong 3 bước.
 - Hoạt động mượt mà trên cả PC, Tablet và Mobile.
 
-### 3. 📒 Sổ Công Nợ Thông Minh
+### 3.  Sổ Công Nợ Thông Minh
 - Theo dõi chi tiết "Ai nợ mình" và "Mình nợ ai".
 - Tự động nhắc nợ khi đến hạn.
 - Lịch sử giao dịch minh bạch, dễ dàng đối soát với khách hàng.
 
-### 4. 📊 Báo Cáo "Dân Dã"
+### 4.  Báo Cáo 
 - Biểu đồ doanh thu ngày/tháng đơn giản, dễ hiểu.
 - Báo cáo lãi lỗ tạm tính (không cần kiến thức kế toán chuyên sâu).
 - Tự động sinh bút toán tuân thủ Thông tư 88/2021/TT-BTC (khi cần xuất báo cáo thuế).
 
 ---
 
-## 🛠 Công Nghệ Sử Dụng (Tech Stack)
+##  Công Nghệ Sử Dụng (Tech Stack)
 
 ### Frontend (Giao Diện)
 - **Framework**: Next.js 15 (App Router)
@@ -66,7 +66,6 @@ CREATE DATABASE bizflow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 ### Bước 2.2: Cài đặt và Chạy
-Mở terminal tại thư mục gốc `Flask-CleanArchitecture`:
 
 1. **Tạo/Kích hoạt môi trường ảo:**
    ```bash
@@ -141,44 +140,7 @@ Truy cập ứng dụng tại: `http://localhost:3000`
 ---
 
 
-##  Ví Dụ Sử Dụng (Curl)
 
-##  Ví Dụ Sử Dụng (PowerShell)
-
-### Đăng Nhập (Lấy Token)
-```powershell
-curl -X POST http://localhost:9999/api/v1/auth/login `
-  -H "Content-Type: application/json" `
-  -d '{"email": "owner@bizflow.vn", "password": "owner123"}'
-```
-
-### Tạo Đơn Hàng Mới
-```powershell
-curl -X POST http://localhost:9999/api/v1/orders `
-  -H "Authorization: Bearer <TOKEN>" `
-  -H "Content-Type: application/json" `
-  -d '{
-    "store_id": 1,
-    "customer_id": 1,
-    "items": [
-      {"product_unit_id": 1, "quantity": 10},
-      {"product_unit_id": 3, "quantity": 5}
-    ]
-  }'
-```
-
-### Tạo Draft Order bằng AI (Text)
-```powershell
-curl -X POST http://localhost:9999/api/v1/ai/draft-orders `
-  -H "Authorization: Bearer <TOKEN>" `
-  -H "Content-Type: application/json" `
-  -d '{
-    "store_id": 1,
-    "text": "Lấy 10 bao xi măng cho chú Ba, ghi nợ"
-  }'
-```
-
----
 
 ##  Cấu Trúc Dự Án (Clean Architecture)
 
