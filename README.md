@@ -134,13 +134,8 @@ Truy cập ứng dụng tại: `http://localhost:3000`
 1. **Sửa Frontend**: Next.js hỗ trợ Hot Reload, chỉ cần lưu file là thấy thay đổi.
 2. **Sửa Backend**: Flask server cũng tự động reload khi code thay đổi (nếu bật debug mode).
 3. **Linting**:
-   - Frontend: `npm run lint`
-   - Backend: (Cài đặt `flake8` hoặc `black` nếu cần).
 
 ---
-
-
-
 
 ##  Cấu Trúc Dự Án (Clean Architecture)
 
