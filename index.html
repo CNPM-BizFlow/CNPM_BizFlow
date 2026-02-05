@@ -2,122 +2,437 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>BizFlow - Hệ thống Quản lý Vật liệu Xây dựng</title>
+    <title>BizFlow - Hệ thống Quản lý Hộ Kinh Doanh</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; display: flex; height: 100vh; background: #f0f2f5; }
-        .sidebar { width: 260px; background: #2c3e50; color: white; padding: 20px; display: flex; flex-direction: column; }
-        .sidebar h2 { color: #3498db; text-align: center; margin-bottom: 20px; border-bottom: 1px solid #3e4f5f; padding-bottom: 10px; }
+        /* --- CẬP NHẬT CSS CHÍNH --- */
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            /* Thay nền xám bằng nền có họa tiết xây dựng nhẹ */
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+        }
         
+        /* --- AUTH CSS (MÀN HÌNH LOGIN) --- */
+        .auth-container { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            /* Thay nền màu bằng Ảnh nền Công trường/Vật liệu */
+            background-image: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.95)), url('https://images.unsplash.com/photo-1535732759880-bbd5c7265e3f?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: 1000; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column;
+        }
+        .auth-box { 
+            background: rgba(255, 255, 255, 0.95); /* Làm trong suốt nhẹ */
+            padding: 40px; 
+            border-radius: 12px; 
+            width: 350px; 
+            text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
+            backdrop-filter: blur(5px);
+        }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .btn-auth { width: 100%; padding: 12px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        .btn-auth:hover { background: #2980b9; }
+        .auth-link { margin-top: 15px; color: #7f8c8d; font-size: 13px; cursor: pointer; display: block; text-decoration: underline; }
+        
+        /* --- LAYOUT CSS --- */
+        .sidebar { 
+            width: 260px; 
+            background: #2c3e50; /* Giữ màu tối cho menu dễ nhìn */
+            color: white; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar h2 { color: #3498db; text-align: center; margin-bottom: 20px; border-bottom: 1px solid #3e4f5f; padding-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        
+        .user-info { padding: 15px 0; border-bottom: 1px solid #3e4f5f; margin-bottom: 15px; text-align: center; }
+        .avatar-circle { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #3498db; margin-bottom: 5px; }
+
         .role-box { background: #34495e; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
         .role-box select { width: 100%; background: #2c3e50; color: #3498db; border: none; padding: 5px; border-radius: 4px; cursor: pointer; }
-
-        .menu-item { padding: 15px; cursor: pointer; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
+        .menu-item { padding: 15px; cursor: pointer; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; position: relative; display: flex; align-items: center; gap: 10px; }
         .menu-item:hover, .active { background: #34495e; color: #3498db; }
-        .content { flex: 1; padding: 30px; overflow-y: auto; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .hidden { display: none; }
-        h3 { margin-top: 0; color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; }
         
+        /* CONTENT TRANSPARENCY */
+        .content { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; } 
+        /* Làm các card hơi trong suốt để thấy nền phía sau */
+        .card { background: rgba(255, 255, 255, 0.96); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        
+        .hidden { display: none !important; } 
+        h3 { margin-top: 0; color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; }
         textarea { width: 100%; height: 100px; padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
         .btn-ai { background: #8e44ad; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-        
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
         .badge-type { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; background: #eef2f7; color: #3498db; }
         .owner-feature { border-left: 3px solid #e74c3c !important; } 
+
+        /* --- IMAGES IN TABLE --- */
+        .product-thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; margin-right: 10px; border: 1px solid #eee; }
+        .product-row-flex { display: flex; align-items: center; }
+
+        /* --- CSS CHO POS & PRINT --- */
+        .pos-layout { display: flex; gap: 20px; height: calc(100vh - 100px); }
+        .pos-left { flex: 2; display: flex; flex-direction: column; }
+        .pos-right { flex: 1; background: rgba(255, 255, 255, 0.96); border-radius: 12px; padding: 20px; box-shadow: -2px 0 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .search-bar { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; }
+        
+        .btn-icon { width: 30px; height: 30px; border-radius: 4px; font-weight: bold; cursor: pointer; border:none; display:inline-flex; align-items:center; justify-content:center; margin-right: 2px; color: white;}
+        .btn-add-cart { background: #27ae60; border-radius: 50%; }
+        .btn-edit { background: #f39c12; }
+        .btn-delete { background: #c0392b; }
+        .btn-import { background: #3498db; font-size: 11px; width: auto; padding: 0 8px; height: 24px; }
+        .btn-print { background: #7f8c8d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px; }
+        
+        /* Modal Hóa đơn */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+        .invoice-paper { background: white; width: 400px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+        .invoice-header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 15px; }
+        
+        .badge-notify { position: absolute; top: 10px; right: 10px; background: #e74c3c; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold; display: none; }
+
+        @media print {
+            body * { visibility: hidden; }
+            .invoice-paper, .invoice-paper * { visibility: visible; }
+            .invoice-paper { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+            .no-print { display: none; }
+        }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h2>BizFlow MVP</h2>
-    <div class="role-box">
-        <label>Chế độ xem:</label>
-        <select id="user-role" onchange="syncSystem()">
-            <option value="owner">Chủ cửa hàng (Full)</option>
-            <option value="employee">Nhân viên (Limited)</option>
-        </select>
+<div id="auth-screen" class="auth-container">
+    <div style="background: white; padding: 10px; border-radius: 50%; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        <img src="https://cdn-icons-png.flaticon.com/512/3616/3616927.png" width="80" alt="Logo">
     </div>
-    <div class="menu-item active" onclick="showTab('ai-tab')">🤖 AI Tạo Đơn Hàng</div>
-    <div class="menu-item" onclick="showTab('product-tab')">📦 Quản lý Sản phẩm</div>
-    <div class="menu-item" onclick="showTab('order-tab')">📋 Danh sách Đơn hàng</div>
-    <div id="nav-report" class="menu-item" onclick="showTab('report-tab')">📊 Báo cáo Doanh thu</div>
+    <div id="login-form" class="auth-box">
+        <h2 style="color:#2c3e50; margin-top:0;">BizFlow Login</h2>
+        <p style="color:#7f8c8d; font-size:13px; margin-bottom:20px;">Quản lý vật liệu xây dựng thông minh</p>
+        <input type="text" id="l-user" class="auth-input" placeholder="Tên đăng nhập (ví dụ: admin)">
+        <input type="password" id="l-pass" class="auth-input" placeholder="Mật khẩu">
+        <button class="btn-auth" onclick="handleLogin()">ĐĂNG NHẬP</button>
+        <span class="auth-link" onclick="toggleAuth('register')">Chưa có tài khoản? Đăng ký ngay</span>
+        <div style="margin-top:10px; font-size:11px; color:#95a5a6;">(Demo: user: <b>admin</b> / pass: <b>123</b>)</div>
+    </div>
+
+    <div id="register-form" class="auth-box" style="display:none">
+        <h2 style="color:#2c3e50; margin-top:0;">Tạo tài khoản</h2>
+        <input type="text" id="r-user" class="auth-input" placeholder="Tên đăng nhập mới">
+        <input type="password" id="r-pass" class="auth-input" placeholder="Mật khẩu">
+        <select id="r-role" class="auth-input">
+            <option value="employee">Nhân viên (Quyền hạn chế)</option>
+            <option value="owner">Chủ cửa hàng (Full quyền)</option>
+        </select>
+        <button class="btn-auth" style="background:#27ae60" onclick="handleRegister()">ĐĂNG KÝ</button>
+        <span class="auth-link" onclick="toggleAuth('login')">Quay lại Đăng nhập</span>
+    </div>
 </div>
 
-<div class="content">
-    <div id="ai-tab" class="tab-content">
-        <div class="card">
-            <h3>🤖 Trợ lý AI (Zalo/Voice)</h3>
-            <textarea id="ai-input" placeholder="Ví dụ: An lấy 50 bao xi mang, Bình lấy 2 xe cát..."></textarea>
-            <button class="btn-ai" onclick="analyzeOrder()">🚀 PHÂN TÍCH ĐƠN HÀNG</button>
-            
-            <div id="ai-result" style="display:none; margin-top:20px; padding:20px; border:2px dashed #8e44ad; border-radius:10px;">
-                <div style="margin-bottom:15px; background:#fffbe6; padding:10px; border-radius:8px;">
-                    <b>Chọn loại khách:</b> 
-                    <input type="radio" name="cust-type" id="t-quen" checked onclick="setOrderType('Quen')"> Khách quen
-                    <input type="radio" name="cust-type" id="t-vang" onclick="setOrderType('Vãng lai')"> Vãng lai
+<div id="app-container" style="display:none; width:100%; height:100%; display: flex;">
+    <div class="sidebar">
+        <h2>
+            <img src="https://cdn-icons-png.flaticon.com/512/3616/3616927.png" width="30">
+            BizFlow MVP
+        </h2>
+        <div class="user-info">
+            <img id="user-avatar" src="" class="avatar-circle">
+            <div style="font-weight: bold; font-size: 16px;">👋 <span id="display-user">User</span></div>
+            <div style="font-size: 12px; color: #bdc3c7; margin-top:3px;">Vai trò: <span id="display-role-name">...</span></div>
+        </div>
+
+        <div class="role-box" style="display:none;">
+            <label>Chế độ xem:</label>
+            <select id="user-role" onchange="syncSystem()">
+                <option value="owner">Chủ cửa hàng (Full)</option>
+                <option value="employee">Nhân viên (Limited)</option>
+            </select>
+        </div>
+
+        <div class="menu-item active" onclick="showTab('ai-tab')">🤖 AI Tạo Đơn Hàng</div>
+        
+        <div class="menu-item" onclick="showTab('notify-tab')">
+            🔔 Duyệt Đơn Nháp
+            <span id="notify-badge" class="badge-notify">0</span>
+        </div>
+
+        <div class="menu-item" onclick="showTab('product-tab')">🛒 Bán hàng & Sản phẩm</div>
+        <div class="menu-item" onclick="showTab('order-tab')">📋 Danh sách Đơn hàng</div>
+        <div class="menu-item" onclick="showTab('customer-tab')">👥 Khách hàng & Công nợ</div>
+        
+        <div id="nav-emp" class="menu-item owner-feature" onclick="showTab('employee-tab')">👨‍💼 Quản lý Nhân viên</div>
+        
+        <div id="nav-report" class="menu-item" onclick="showTab('report-tab')">📊 Báo cáo Doanh thu</div>
+        
+        <div class="menu-item" style="margin-top: auto; background: rgba(231, 76, 60, 0.2); color: #e74c3c;" onclick="handleLogout()">
+            🚪 Đăng xuất
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="ai-tab" class="tab-content">
+            <div class="card">
+                <h3>🤖 Trợ lý AI (Zalo/Voice)</h3>
+                <textarea id="ai-input" placeholder="Ví dụ: An lấy 50 bao xi mang, Bình lấy 2 xe cát..."></textarea>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button class="btn-ai" style="flex:1" onclick="analyzeOrder()">🚀 PHÂN TÍCH NGAY</button>
+                    <button class="btn-ai" style="flex:1; background:#0088ff;" onclick="simulateIncomingOrder()">📩 GIẢ LẬP ĐƠN ZALO ĐẾN</button>
                 </div>
-                <div id="ai-details" style="line-height: 2;"></div>
-                <button onclick="confirmOrder()" style="background:#27ae60; color:white; border:none; padding:12px 25px; border-radius:8px; margin-top:10px; cursor:pointer; font-weight:bold;">XÁC NHẬN & TRỪ KHO</button>
+                
+                <div id="ai-result" style="display:none; margin-top:20px; padding:20px; border:2px dashed #8e44ad; border-radius:10px;">
+                    <div style="margin-bottom:15px; background:#fffbe6; padding:10px; border-radius:8px;">
+                        <b>Chọn loại khách:</b> 
+                        <input type="radio" name="cust-type" id="t-quen" checked onclick="setOrderType('Quen')"> Khách quen
+                        <input type="radio" name="cust-type" id="t-vang" onclick="setOrderType('Vãng lai')"> Vãng lai
+                    </div>
+                    <div id="ai-details" style="line-height: 2;"></div>
+                    <button onclick="confirmOrder()" style="background:#27ae60; color:white; border:none; padding:12px 25px; border-radius:8px; margin-top:10px; cursor:pointer; font-weight:bold;">XÁC NHẬN & TRỪ KHO</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="notify-tab" class="tab-content hidden">
+            <div class="card">
+                <h3>🔔 Đơn hàng nháp từ AI / Zalo chờ duyệt</h3>
+                <p style="color:#7f8c8d; font-size:13px;">Các đơn hàng được AI tự động tạo từ tin nhắn Zalo hoặc ghi âm nền sẽ xuất hiện ở đây.</p>
+                <table>
+                    <thead><tr><th>Thời gian</th><th>Nguồn</th><th>Nội dung trích xuất</th><th>Thao tác</th></tr></thead>
+                    <tbody id="notify-list">
+                        <tr><td colspan="4" style="text-align:center; color:#999;">Không có thông báo mới</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="product-tab" class="tab-content hidden" style="height: 100%;">
+            <div class="pos-layout">
+                <div class="pos-left">
+                    <div class="card" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3>📦 Kho hàng</h3>
+                            <button class="btn-auth owner-feature" style="width:auto; padding:5px 15px; background:#2980b9; font-size:13px;" onclick="addProduct()">+ Thêm SP Mới</button>
+                        </div>
+                        
+                        <input type="text" id="search-product" class="search-bar" placeholder="🔍 Tìm nhanh sản phẩm..." onkeyup="filterProducts()">
+                        
+                        <div style="overflow-y:auto; flex:1;">
+                            <table>
+                                <thead><tr><th>Sản phẩm</th><th>Giá bán</th><th>Tồn (Nhập)</th><th style="width:100px;">Thao tác</th></tr></thead>
+                                <tbody id="p-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pos-right">
+                    <h3 style="border-left:none; padding-left:0;">🛒 Giỏ hàng</h3>
+                    <div style="flex:1; overflow-y:auto; border-bottom: 1px solid #eee;">
+                        <table style="font-size:13px;">
+                            <thead><tr><th>SP</th><th>SL</th><th>Thành tiền</th><th>Xóa</th></tr></thead>
+                            <tbody id="cart-list"></tbody>
+                        </table>
+                        <div id="empty-cart-msg" style="text-align:center; color:#999; margin-top:20px;">Giỏ hàng trống</div>
+                    </div>
+                    
+                    <div style="padding-top:15px;">
+                        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin-bottom:10px;">
+                            <span>Tổng tiền:</span>
+                            <span id="cart-total" style="color:#e74c3c;">0đ</span>
+                        </div>
+                        <select id="cart-customer" class="auth-input">
+                            <option value="">-- Khách vãng lai --</option>
+                        </select>
+                        <button class="btn-auth" style="background:#27ae60;" onclick="checkoutCart()">✅ THANH TOÁN & IN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="order-tab" class="tab-content hidden">
+            <div class="card">
+                <h3>📋 Lịch sử Đơn hàng</h3>
+                <table>
+                    <thead><tr><th>Mã</th><th>Khách hàng</th><th>Loại</th><th>Chi tiết</th><th>Tổng</th><th>Thao tác</th></tr></thead>
+                    <tbody id="o-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="customer-tab" class="tab-content hidden">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>👥 Danh sách Khách hàng & Công nợ</h3>
+                    <button class="btn-auth" style="width:auto; padding:8px 15px; background:#27ae60;" onclick="addCustomer()">+ Thêm Khách</button>
+                </div>
+                <table>
+                    <thead><tr><th>Tên khách</th><th>SĐT</th><th>Địa chỉ</th><th>Nợ hiện tại</th><th class="owner-only">Lịch sử</th></tr></thead>
+                    <tbody id="c-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="employee-tab" class="tab-content hidden">
+            <div class="card owner-feature">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>👨‍💼 Quản lý Nhân viên</h3>
+                    <button class="btn-auth" style="width:auto; padding:8px 15px; background:#27ae60;" onclick="addEmployee()">+ Thêm Nhân viên</button>
+                </div>
+                <p style="color:#7f8c8d; font-size:13px;">Chỉ chủ cửa hàng mới thấy màn hình này.</p>
+                <table>
+                    <thead><tr><th>Avatar</th><th>Tên đăng nhập</th><th>Mật khẩu</th><th>Vai trò</th><th>Thao tác</th></tr></thead>
+                    <tbody id="emp-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="report-tab" class="tab-content hidden">
+            <div class="card owner-feature">
+                <h3>📊 Báo cáo Doanh thu (Chỉ dành cho Chủ)</h3>
+                <div id="revenue-chart" style="display:flex; gap:15px; align-items:flex-end; height:180px; border-bottom:2px solid #eee; padding-bottom: 10px;"></div>
+                <div id="chart-labels" style="display:flex; gap:15px; justify-content: space-between; font-size: 10px; margin-top: 10px; color: #7f8c8d;"></div>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="product-tab" class="tab-content hidden">
-        <div class="card">
-            <h3>📦 Kho hàng Vật liệu xây dựng</h3>
-            <table>
-                <thead><tr><th>Sản phẩm</th><th>Mã SKU</th><th>Giá bán</th><th>Tồn kho</th><th class="owner-only">Thao tác</th></tr></thead>
-                <tbody id="p-list"></tbody>
-            </table>
+<div id="invoice-modal" class="modal-overlay">
+    <div class="invoice-paper">
+        <div class="invoice-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/3616/3616927.png" width="50" style="margin-bottom:10px;">
+            <h2>HÓA ĐƠN BÁN LẺ</h2>
+            <p>Cửa hàng VLXD BizFlow</p>
+            <p id="inv-date" style="font-size:12px; color:#666;"></p>
         </div>
-    </div>
-
-    <div id="order-tab" class="tab-content hidden">
-        <div class="card">
-            <h3>📋 Lịch sử Đơn hàng</h3>
-            <table>
-                <thead><tr><th>Mã</th><th>Khách hàng</th><th>Loại</th><th>Chi tiết</th><th>Tổng</th><th class="owner-only">Thao tác</th></tr></thead>
-                <tbody id="o-list"></tbody>
-            </table>
+        <div style="margin-bottom:15px;">
+            <b>Khách hàng:</b> <span id="inv-cust">...</span><br>
+            <b>Mã đơn:</b> <span id="inv-id">...</span>
         </div>
-    </div>
-
-    <div id="report-tab" class="tab-content hidden">
-        <div class="card owner-feature">
-            <h3>📊 Báo cáo Doanh thu (Chỉ dành cho Chủ)</h3>
-            <div id="revenue-chart" style="display:flex; gap:15px; align-items:flex-end; height:180px; border-bottom:2px solid #eee; padding-bottom: 10px;"></div>
-            <div id="chart-labels" style="display:flex; gap:15px; justify-content: space-between; font-size: 10px; margin-top: 10px; color: #7f8c8d;"></div>
+        <table style="width:100%; border-bottom:1px solid #333; margin-bottom:10px;">
+            <thead><tr><th>Tên hàng</th><th>SL</th><th>Đ.Giá</th><th>T.Tiền</th></tr></thead>
+            <tbody id="inv-items"></tbody>
+        </table>
+        <div style="text-align:right; font-size:18px; font-weight:bold;">
+            TỔNG CỘNG: <span id="inv-total">0đ</span>
+        </div>
+        <div class="no-print" style="margin-top:20px; display:flex; gap:10px;">
+            <button class="btn-auth" onclick="window.print()">🖨️ IN NGAY</button>
+            <button class="btn-auth" style="background:#95a5a6;" onclick="closeInvoice()">Đóng</button>
         </div>
     </div>
 </div>
 
 <script>
-    // BỔ SUNG THÊM SẢN PHẨM THEO YÊU CẦU
+    // --- DATABASE ---
+    // User kèm Avatar (Giả lập)
+    let users = [
+        { user: 'admin', pass: '123', role: 'owner', avatar: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' },
+        { user: 'staff', pass: '123', role: 'employee', avatar: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png' }
+    ];
+    let currentUser = null; 
+
+    let customers = [
+        { id: "KH01", name: "Nguyễn Văn An", phone: "0909123456", address: "Long Xuyên", debt: 5000000 },
+        { id: "KH02", name: "Trần Thị Bình", phone: "0918123123", address: "Châu Đốc", debt: 0 },
+        { id: "KH03", name: "Lê Văn Cường", phone: "0987654321", address: "Chợ Mới", debt: 1250000 }
+    ];
+
+    // Sản phẩm kèm Hình ảnh (Link Unsplash)
     let products = [
-        { id: 1, name: "Xi măng Hà Tiên PCB40", sku: "XM-HT", price: 95000, stock: 500, rev: 0, color: "#3498db" },
-        { id: 2, name: "Gạch ống Tuynel (8x18)", sku: "G-TY", price: 1200, stock: 10000, rev: 0, color: "#e67e22" },
-        { id: 3, name: "Cát xây dựng (Xe 2m3)", sku: "C-XD", price: 650000, stock: 20, rev: 0, color: "#f1c40f" },
-        { id: 4, name: "Sắt Phi 10 (Cây 11.7m)", sku: "S-P10", price: 115000, stock: 150, rev: 0, color: "#95a5a6" },
-        { id: 5, name: "Đá 1x2 (Xe 2m3)", sku: "D-12", price: 580000, stock: 15, rev: 0, color: "#34495e" },
-        { id: 6, name: "Tôn kẽm hoa sen (m)", sku: "T-HS", price: 75000, stock: 300, rev: 0, color: "#2ecc71" }
+        { id: 1, name: "Xi măng Hà Tiên PCB40", sku: "XM-HT", price: 95000, stock: 500, rev: 0, image: "https://images.unsplash.com/photo-1599708153386-928d22822295?w=100&h=100&fit=crop" },
+        { id: 2, name: "Gạch ống Tuynel (8x18)", sku: "G-TY", price: 1200, stock: 10000, rev: 0, image: "https://images.unsplash.com/photo-1590082729906-444f24c0e61e?w=100&h=100&fit=crop" },
+        { id: 3, name: "Cát xây dựng (Xe 2m3)", sku: "C-XD", price: 650000, stock: 20, rev: 0, image: "https://images.unsplash.com/photo-1621262332675-9273c09772c6?w=100&h=100&fit=crop" },
+        { id: 4, name: "Sắt Phi 10 (Cây 11.7m)", sku: "S-P10", price: 115000, stock: 150, rev: 0, image: "https://images.unsplash.com/photo-1535492285429-2775bb9a797f?w=100&h=100&fit=crop" },
+        { id: 5, name: "Đá 1x2 (Xe 2m3)", sku: "D-12", price: 580000, stock: 15, rev: 0, image: "https://images.unsplash.com/photo-1525492579040-cfc6c40e1041?w=100&h=100&fit=crop" },
+        { id: 6, name: "Tôn kẽm hoa sen (m)", sku: "T-HS", price: 75000, stock: 300, rev: 0, image: "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=100&h=100&fit=crop" }
     ];
     
     let orders = [];
     let cur = null;
+    let cart = [];
+    let notifications = [];
 
+    // --- AUTH LOGIC ---
+    document.getElementById('app-container').style.display = 'none';
+
+    function toggleAuth(view) {
+        if(view === 'register') {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        } else {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+        }
+    }
+
+    function handleLogin() {
+        const u = document.getElementById('l-user').value;
+        const p = document.getElementById('l-pass').value;
+        const found = users.find(x => x.user === u && x.pass === p);
+        if (found) {
+            currentUser = found;
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+            document.getElementById('display-user').innerText = currentUser.user;
+            document.getElementById('display-role-name').innerText = (currentUser.role === 'owner') ? 'CHỦ CỬA HÀNG' : 'NHÂN VIÊN';
+            
+            // Cập nhật Avatar
+            document.getElementById('user-avatar').src = currentUser.avatar;
+
+            syncSystem(); 
+        } else {
+            alert("❌ Sai tên đăng nhập hoặc mật khẩu!");
+        }
+    }
+
+    function handleRegister() {
+        const u = document.getElementById('r-user').value;
+        const p = document.getElementById('r-pass').value;
+        const r = document.getElementById('r-role').value;
+        if (u && p) {
+            users.push({ user: u, pass: p, role: r, avatar: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png' });
+            alert("✅ Tạo tài khoản thành công! Mời đăng nhập.");
+            toggleAuth('login');
+        } else { alert("⚠️ Vui lòng nhập đủ thông tin!"); }
+    }
+
+    function handleLogout() {
+        if (confirm("Bạn muốn đăng xuất?")) {
+            currentUser = null;
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('auth-screen').style.display = 'flex';
+            document.getElementById('l-pass').value = ''; 
+        }
+    }
+
+    // --- MAIN LOGIC ---
     function syncSystem() {
-        const role = document.getElementById('user-role').value;
+        const role = currentUser ? currentUser.role : 'employee'; 
         const ownerUIs = document.querySelectorAll('.owner-only');
         const reportNav = document.getElementById('nav-report');
+        const empNav = document.getElementById('nav-emp'); 
 
         if (role === 'employee') {
             ownerUIs.forEach(el => el.style.display = 'none');
             reportNav.style.display = 'none';
-            showTab('ai-tab');
+            empNav.style.display = 'none';
+            if(!document.getElementById('report-tab').classList.contains('hidden') || !document.getElementById('employee-tab').classList.contains('hidden')) {
+                showTab('ai-tab');
+            }
         } else {
             ownerUIs.forEach(el => el.style.display = '');
             reportNav.style.display = '';
+            empNav.style.display = '';
         }
         renderUI();
     }
@@ -128,16 +443,275 @@
         document.getElementById(id).classList.remove('hidden');
         if(event) event.currentTarget.classList.add('active');
         if(id === 'report-tab') renderChart();
+        if(id === 'notify-tab') renderNotifications(); 
+        if(id === 'employee-tab') renderEmployees();
     }
 
+    function addCustomer() {
+        let name = prompt("Nhập tên khách hàng:");
+        if(name) {
+            customers.push({ 
+                id: "KH"+Date.now().toString().slice(-4), 
+                name: name, phone: "Đang cập nhật", address: "Chưa rõ", debt: 0 
+            });
+            renderUI();
+            alert("Đã thêm khách: " + name);
+        }
+    }
+
+    // --- TÍNH NĂNG THÔNG BÁO ---
+    function simulateIncomingOrder() {
+        const notiId = Date.now();
+        notifications.push({
+            id: notiId,
+            time: new Date().toLocaleTimeString(),
+            source: "Zalo OA",
+            content: "Anh An đặt 50 bao xi măng, 2 xe cát.",
+            status: "new",
+            details: [
+                {id: 1, qty: 50}, 
+                {id: 3, qty: 2}   
+            ]
+        });
+        updateBadge();
+        alert("🔔 Ting! Có đơn hàng mới từ Zalo!");
+    }
+
+    function updateBadge() {
+        const count = notifications.filter(n => n.status === 'new').length;
+        const badge = document.getElementById('notify-badge');
+        badge.innerText = count;
+        badge.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+
+    function renderNotifications() {
+        const list = document.getElementById('notify-list');
+        if(notifications.length === 0) {
+            list.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#999;">Chưa có thông báo nào</td></tr>`;
+            return;
+        }
+        list.innerHTML = notifications.map(n => `
+            <tr style="background:${n.status==='new' ? '#fffbe6' : 'white'}">
+                <td>${n.time}</td>
+                <td><span class="badge-type">${n.source}</span></td>
+                <td>${n.content}</td>
+                <td>
+                    ${n.status === 'new' ? 
+                    `<button class="btn-auth" style="padding:5px 10px; font-size:12px;" onclick="approveDraft(${n.id})">✅ Duyệt vào Giỏ</button>` : 
+                    `<span style="color:#27ae60; font-size:12px; font-weight:bold;">Đã xử lý</span>`}
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function approveDraft(nid) {
+        const noti = notifications.find(n => n.id === nid);
+        if(!noti) return;
+        noti.details.forEach(d => {
+            addToCart(d.id);
+            let item = cart.find(x => x.id === d.id);
+            if(item) item.qty = d.qty; 
+        });
+        noti.status = 'processed';
+        updateBadge();
+        renderNotifications();
+        renderCart();
+        alert("✅ Đã chuyển đơn hàng vào Giỏ hàng POS. Vui lòng kiểm tra và thanh toán!");
+        showTab('product-tab'); 
+    }
+
+    // --- CRUD SẢN PHẨM ---
+    function addProduct() {
+        let name = prompt("Nhập tên sản phẩm:");
+        if(!name) return;
+        let price = prompt("Nhập giá bán:");
+        let sku = prompt("Nhập mã SKU:");
+        
+        products.push({
+            id: Date.now(),
+            name: name,
+            sku: sku || "NEW",
+            price: parseInt(price) || 0,
+            stock: 0,
+            rev: 0,
+            image: "https://cdn-icons-png.flaticon.com/512/1540/1540307.png" // Ảnh mặc định
+        });
+        renderUI();
+    }
+
+    function editProduct(pid) {
+        let p = products.find(x => x.id === pid);
+        if(!p) return;
+        let newPrice = prompt("Nhập giá mới:", p.price);
+        if(newPrice) p.price = parseInt(newPrice);
+        renderUI();
+    }
+
+    function deleteProduct(pid) {
+        if(confirm("Bạn chắc chắn muốn xóa sản phẩm này?")) {
+            products = products.filter(x => x.id !== pid);
+            renderUI();
+        }
+    }
+
+    function importStock(pid) {
+        let p = products.find(x => x.id === pid);
+        if(!p) return;
+        let qty = prompt(`Nhập số lượng nhập thêm cho [${p.name}]:`);
+        if(qty && !isNaN(qty)) {
+            p.stock += parseInt(qty);
+            renderUI();
+            alert("Đã nhập kho thành công!");
+        }
+    }
+
+    // --- QUẢN LÝ NHÂN VIÊN ---
+    function renderEmployees() {
+        const list = document.getElementById('emp-list');
+        const emps = users.filter(u => u.role === 'employee');
+        list.innerHTML = emps.map(e => `
+            <tr>
+                <td><img src="${e.avatar}" style="width:30px; height:30px; border-radius:50%"></td>
+                <td>${e.user}</td>
+                <td>***</td>
+                <td>Nhân viên</td>
+                <td><button class="btn-icon btn-delete" onclick="deleteEmployee('${e.user}')">🗑️</button></td>
+            </tr>
+        `).join('');
+    }
+
+    function addEmployee() {
+        let u = prompt("Tên đăng nhập nhân viên mới:");
+        if(!u) return;
+        if(users.some(x => x.user === u)) return alert("Tên đã tồn tại!");
+        let p = prompt("Mật khẩu:");
+        users.push({ 
+            user: u, 
+            pass: p, 
+            role: 'employee',
+            avatar: 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png'
+        });
+        renderEmployees();
+        alert("Đã thêm nhân viên!");
+    }
+
+    function deleteEmployee(uName) {
+        if(confirm("Xóa nhân viên này?")) {
+            users = users.filter(u => u.user !== uName);
+            renderEmployees();
+        }
+    }
+
+    // --- POS & CART ---
+    function filterProducts() {
+        let txt = document.getElementById('search-product').value.toLowerCase();
+        let rows = document.querySelectorAll('#p-list tr');
+        rows.forEach(r => {
+            let name = r.innerText.toLowerCase(); 
+            r.style.display = name.includes(txt) ? '' : 'none';
+        });
+    }
+
+    function addToCart(pid) {
+        let p = products.find(x => x.id === pid);
+        if(p.stock <= 0) return alert("Hết hàng!");
+        
+        let item = cart.find(x => x.id === pid);
+        if(item) item.qty++;
+        else cart.push({ id: p.id, name: p.name, price: p.price, qty: 1 });
+        renderCart();
+    }
+
+    function removeFromCart(pid) {
+        cart = cart.filter(x => x.id !== pid);
+        renderCart();
+    }
+
+    function renderCart() {
+        let total = 0;
+        let html = cart.map(i => {
+            let sum = i.price * i.qty;
+            total += sum;
+            return `<tr><td>${i.name}</td><td>${i.qty}</td><td>${sum.toLocaleString()}</td><td><span style="color:red;cursor:pointer" onclick="removeFromCart(${i.id})">🗑️</span></td></tr>`;
+        }).join('');
+        
+        document.getElementById('cart-list').innerHTML = html;
+        document.getElementById('cart-total').innerText = total.toLocaleString() + 'đ';
+        document.getElementById('empty-cart-msg').style.display = cart.length ? 'none' : 'block';
+    }
+
+    function checkoutCart() {
+        if(cart.length === 0) return alert("Giỏ hàng trống!");
+        let custId = document.getElementById('cart-customer').value;
+        let custName = "Khách vãng lai";
+        let type = "Vãng lai";
+        let total = 0;
+        
+        cart.forEach(item => {
+            let p = products.find(x => x.id === item.id);
+            p.stock -= item.qty;
+            total += item.price * item.qty;
+        });
+
+        if(custId) {
+            let c = customers.find(x => x.id == custId);
+            if(c) {
+                c.debt += total;
+                custName = c.name;
+                type = "Quen";
+            }
+        }
+
+        let order = {
+            id: "HD" + Date.now().toString().slice(-4),
+            customer: custName,
+            type: type,
+            detail: cart.map(i => `${i.name} (${i.qty})`).join(', '),
+            items: JSON.parse(JSON.stringify(cart)), 
+            total: total.toLocaleString() + 'đ',
+            rawTotal: total,
+            date: new Date().toLocaleString()
+        };
+
+        orders.unshift(order);
+        cart = []; 
+        renderCart();
+        renderUI();
+        showInvoice(order);
+    }
+
+    function showInvoice(order) {
+        document.getElementById('inv-id').innerText = order.id;
+        document.getElementById('inv-date').innerText = order.date;
+        document.getElementById('inv-cust').innerText = order.customer;
+        document.getElementById('inv-total').innerText = order.total;
+        
+        let itemsHtml = "";
+        if(order.items) {
+            itemsHtml = order.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price.toLocaleString()}</td><td>${(i.price*i.qty).toLocaleString()}</td></tr>`).join('');
+        } else {
+            itemsHtml = `<tr><td colspan="4">${order.detail}</td></tr>`;
+        }
+        document.getElementById('inv-items').innerHTML = itemsHtml;
+        document.getElementById('invoice-modal').style.display = 'flex';
+    }
+
+    function closeInvoice() {
+        document.getElementById('invoice-modal').style.display = 'none';
+    }
+    
+    function printOldOrder(oid) {
+        let o = orders.find(x => x.id === oid);
+        showInvoice(o);
+    }
+
+    // --- AI LOGIC ---
     function analyzeOrder() {
         const text = document.getElementById('ai-input').value.toLowerCase();
-        // Cải tiến AI tìm kiếm theo từ khóa trong danh sách sản phẩm mới
         let pFound = products.find(p => {
             let shortName = p.name.toLowerCase().split(' ')[0];
             return text.includes(shortName) || text.includes(p.sku.toLowerCase());
         });
-        
         const qty = parseInt(text.match(/\d+/) || "0");
         const words = text.split(' ');
         let name = (isNaN(words[0])) ? words[0].toUpperCase() : "KHÁCH VÃNG LAI";
@@ -166,38 +740,79 @@
         if (p.stock >= cur.qty) {
             p.stock -= cur.qty;
             p.rev += cur.total;
-            orders.unshift({ 
+            let msg = "Đã xác nhận đơn hàng!";
+            if (cur.type === 'Quen') {
+                let cust = customers.find(c => cur.customer.includes(c.name.split(' ').pop()));
+                if (cust) {
+                    cust.debt += cur.total;
+                    msg += `\nĐã cộng nợ ${cur.total.toLocaleString()}đ cho ${cust.name}`;
+                } else {
+                    msg += "\n(Lưu ý: Không tìm thấy tên khách trong danh bạ để cộng nợ)";
+                }
+            }
+            let order = { 
                 id: "BF"+Date.now().toString().slice(-4), 
                 customer: cur.customer, 
                 type: cur.type, 
                 detail: cur.qty + " " + (p.sku), 
-                total: cur.total.toLocaleString()+"đ" 
-            });
+                total: cur.total.toLocaleString()+"đ",
+                date: new Date().toLocaleString()
+            };
+            orders.unshift(order);
             renderUI();
-            alert("Đã xác nhận đơn hàng và cập nhật kho!");
+            alert(msg);
             document.getElementById('ai-result').style.display = 'none';
-            showTab('order-tab');
+            showInvoice(order);
         } else { alert("Kho không đủ hàng!"); }
     }
 
     function renderUI() {
-        const isOwner = document.getElementById('user-role').value === 'owner';
+        const isOwner = currentUser && currentUser.role === 'owner';
         
+        // RENDER LIST POS VỚI HÌNH ẢNH
         document.getElementById('p-list').innerHTML = products.map(p => `
             <tr>
-                <td>${p.name}</td><td><code>${p.sku}</code></td><td>${p.price.toLocaleString()}</td>
-                <td><b style="color:${p.stock < 10 ? 'red' : '#27ae60'}">${p.stock}</b></td>
-                <td class="owner-only" style="display:${isOwner?'':'none'}">
-                    <button onclick="alert('Sửa...')">✏️</button>
+                <td>
+                    <div class="product-row-flex">
+                        <img src="${p.image}" class="product-thumb">
+                        <div>${p.name}<br><small style="color:#7f8c8d">${p.sku}</small></div>
+                    </div>
+                </td>
+                <td>${p.price.toLocaleString()}</td>
+                <td>
+                    <b style="color:${p.stock < 10 ? 'red' : '#27ae60'}">${p.stock}</b>
+                    ${isOwner ? `<button class="btn-import" onclick="importStock(${p.id})">📥</button>` : ''}
+                </td>
+                <td style="display:flex; align-items:center;">
+                    <button class="btn-icon btn-add-cart" onclick="addToCart(${p.id})">+</button>
+                    ${isOwner ? `
+                        <button class="btn-icon btn-edit" onclick="editProduct(${p.id})" style="margin-left:5px;">✏️</button>
+                        <button class="btn-icon btn-delete" onclick="deleteProduct(${p.id})">🗑️</button>
+                    ` : ''}
                 </td>
             </tr>
         `).join('');
+
+        document.getElementById('cart-customer').innerHTML = `<option value="">-- Khách vãng lai --</option>` + 
+            customers.map(c => `<option value="${c.id}">${c.name} (Nợ: ${c.debt.toLocaleString()})</option>`).join('');
 
         document.getElementById('o-list').innerHTML = orders.map(o => `
             <tr>
                 <td>${o.id}</td><td>${o.customer}</td><td><span class="badge-type">${o.type}</span></td>
                 <td>${o.detail}</td><td>${o.total}</td>
-                <td class="owner-only" style="display:${isOwner?'':'none'}"><button onclick="alert('Xóa...')">✖</button></td>
+                <td><button class="btn-print" onclick="printOldOrder('${o.id}')">🖨️ In</button></td>
+            </tr>
+        `).join('');
+
+        document.getElementById('c-list').innerHTML = customers.map(c => `
+            <tr>
+                <td><b>${c.name}</b></td>
+                <td>${c.phone}</td>
+                <td>${c.address}</td>
+                <td style="color:${c.debt > 0 ? 'red' : 'black'}; font-weight:bold;">${c.debt.toLocaleString()}đ</td>
+                <td class="owner-only" style="display:${isOwner?'':'none'}">
+                    <button style="font-size:12px; cursor:pointer;" onclick="alert('Xem chi tiết nợ...')">Xem</button>
+                </td>
             </tr>
         `).join('');
     }
@@ -205,17 +820,14 @@
     function renderChart() {
         const max = Math.max(...products.map(p => p.rev), 1000000);
         document.getElementById('revenue-chart').innerHTML = products.map(p => `
-            <div style="flex:1; background:${p.color}; height:${(p.rev/max)*100}%; position:relative; border-radius: 4px 4px 0 0;">
+            <div style="flex:1; background:${p.color || '#3498db'}; height:${(p.rev/max)*100}%; position:relative; border-radius: 4px 4px 0 0;">
                 <div style="position:absolute; top:-25px; width:100%; text-align:center; font-size:11px; font-weight:bold;">${(p.rev/1000).toFixed(0)}k</div>
             </div>
         `).join('');
-        
         document.getElementById('chart-labels').innerHTML = products.map(p => `
             <div style="flex:1; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p.sku}</div>
         `).join('');
     }
-
-    syncSystem();
 </script>
 </body>
 </html>
